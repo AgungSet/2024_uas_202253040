@@ -136,8 +136,8 @@
                             <label class="col-4">Nama Customer</label>
                             <div class="col-8">
                                 <select class="form-control" name="inputan_pilih_dosen" required>
-                                    <?php if(!empty(@$data_ubah_jadwal['id_dosen'])) { ?>
-                                    <option value="<?= @$data_ubah_jadwal['id_dosen'] ?>"><?= @$data_ubah_jadwal['nidn_dosen'].' - '.$data_ubah_jadwal['nama_dosen'] ?></option>
+                                    <?php if(!empty(@$data_ubah_jadwal['idcustomer'])) { ?>
+                                    <option value="<?= @$data_ubah_jadwal['id'] ?>"><?= @$data_ubah_jadwal['nidn_dosen'].' - '.$data_ubah_jadwal['nama_dosen'] ?></option>
                                     <?php } ?>
                                     
                                     <option value=""> -- Silahkan Pilih --</option>
@@ -152,7 +152,7 @@
                         <div class="row mb-2">
                             <label class="col-4">Nama Produk</label>
                             <div class="col-8">
-                                <select class="form-control" name="inputan_pilih_matkul" required>
+                                <select class="form-control" name="inputan_pilih_" required>
                                     <?php if(!empty(@$data_ubah_jadwal['id_matakuliah'])) { ?>
                                     <option value="<?= @$data_ubah_jadwal['id_matakuliah'] ?>"><?= @$data_ubah_jadwal['mata_kuliah']?></option>
                                     <?php } ?>
@@ -739,9 +739,9 @@ if(@$_GET['aksi'] == 'hapus_jadwal'){
 
 <!--
 
-NIM     : silahkan isi .............
-Nama    : silahkan isi .............
-Kelas   : silahkan isi .............
+NIM     : 202253040
+Nama    : Mohammad Agung Setiawan
+Kelas   : P
 
 =========================================
 Program Studi Sistem Informasi UMK # 2024
