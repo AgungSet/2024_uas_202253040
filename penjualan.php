@@ -150,8 +150,8 @@
                     <?php 
                         //perintah untuk menampilkan data ke form entri saat melakukan ubah data
                         if(@$_GET['aksi'] == 'ubah_customer') { 
-                            $SQLTampilDataUbahDosen = mysqli_query($koneksi, "SELECT * FROM customer where idcustomer = '".$_GET['vidcustomer']."' "); 
-                            $data_ubah_customer = mysqli_fetch_array($SQLTampilDataUbahCustomer);
+                            $SQLTampilDataUbahcustomer = mysqli_query($koneksi, "SELECT * FROM customer where idcustomer = '".$_GET['vidcustomer']."' "); 
+                            $data_ubah_customer = mysqli_fetch_array($SQLTampilDataUbahcustomer);
                         }
                     ?>
                     <form method="post" enctype="multipart/form-data" action="">
