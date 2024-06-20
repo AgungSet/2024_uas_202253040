@@ -151,7 +151,7 @@
                         //perintah untuk menampilkan data ke form entri saat melakukan ubah data
                         if(@$_GET['aksi'] == 'ubah_customer') { 
                             $SQLTampilDataUbahDosen = mysqli_query($koneksi, "SELECT * FROM customer where idcustomer = '".$_GET['vidcustomer']."' "); 
-                            $data_ubah_customer = mysqli_fetch_array($SQLTampilDataUbahCustomer);
+                            $data_ubah_customer = mysqli_fetch_array($SQLTampilDataUbahcustomer);
                         }
                     ?>
                     <form method="post" enctype="multipart/form-data" action="">
@@ -238,8 +238,8 @@
                                 <td><?= $no++ ?></td>
                                 
                                 <td>
-                                    <a style="margin: 2px;" href="hal-aplikasi-crud.php?aksi=ubah_dosen&vid_dosen=<?= $data_dosen['id_dosen'] ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a style="margin: 2px;" onclick="return confirm('Yakin hapus ?')" href="hal-aplikasi-crud.php?aksi=hapus_dosen&vid_dosen=<?= $data_dosen['id_dosen'] ?>&vfoto_dosen=<?= $data_dosen['foto_dosen'] ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a style="margin: 2px;" href="hal-aplikasi-crud.php?aksi=ubah_customer&vid_customer=<?= $data_dosen['id_customer'] ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                    <a style="margin: 2px;" onclick="return confirm('Yakin hapus ?')" href="hal-aplikasi-crud.php?aksi=hapus_customer&vid_customer=<?= $data_dosen['id_customer'] ?>&vfoto_customer=<?= $data_customer['foto_customer'] ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             <?php } ?>
@@ -368,13 +368,13 @@ if(@$_GET['aksi'] == 'hapus_matakuliah'){
 }
 
 
-//========================================================================================= DOSEN
+//========================================================================================= customer
 //perintah simpan / tambah data
-if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == ''){
+if(isset($_POST['tombol_simpan_customer']) and @$_GET['aksi'] == ''){
     //periksa apakah file diunggah tanpa kesalahan
-    if(isset($_FILES["inputan_foto_dosen"]) && $_FILES["inputan_foto_dosen"]["error"] == 0){
+    if(isset($_FILES["inputan_foto_customer"]) && $_FILES["inputan_foto_customer"]["error"] == 0){
         $batas_ekstensi_file = array("jpg", "jpeg", "png");
-        $file_pilihan = pathinfo($_FILES["inputan_foto_dosen"]["name"], PATHINFO_EXTENSION);
+        $file_pilihan = pathinfo($_FILES["inputan_foto_customer"]["name"], PATHINFO_EXTENSION);
 
         //periksa ekstensi file yang di izinkan upload
         if(in_array($file_pilihan, $batas_ekstensi_file)){
@@ -386,13 +386,13 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == ''){
             $target_file = $folder_simpan.$nama_file_baru;
 
             //memindahkan file yang diunggah ke lokasi yang ditentukan & melakukan proses simpan data baru
-            if(move_uploaded_file($_FILES["inputan_foto_dosen"]["tmp_name"], $target_file)){
-                $query_simpan = mysqli_query($koneksi, "INSERT INTO dosen (id_dosen, nidn_dosen, nama_dosen, jk_dosen, alamat_dosen, foto_dosen) VALUES (
+            if(move_uploaded_file($_FILES["inputan_foto_customer"]["tmp_name"], $target_file)){
+                $query_simpan = mysqli_query($koneksi, "INSERT INTO customer (id_customer, info_cutomer, namacustomer, jk_customer, alamat_customer, foto_customer) VALUES (
                     '',
-                    '".$_POST['inputan_nidn_dosen']."',
-                    '".$_POST['inputan_nama_dosen']."',
-                    '".$_POST['inputan_jk_dosen']."',
-                    '".$_POST['inputan_alamat_dosen']."',
+                    '".$_POST['inputan_info_customer']."',
+                    '".$_POST['inputan_nama_customer']."',
+                    '".$_POST['inputan_jk_customer']."',
+                    '".$_POST['inputan_alamat_alamat']."',
                     '$nama_file_baru'
                     ) ");
 
@@ -407,14 +407,14 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == ''){
         }
     } else {
         //melakukan proses simpan data baru
-        $query_simpan = mysqli_query($koneksi, "INSERT INTO dosen (id_dosen, nidn_dosen, nama_dosen, jk_dosen, alamat_dosen, foto_dosen) VALUES (
+        $query_simpan = mysqli_query($koneksi, "INSERT INTO customer (id_customer, info_cutomer, namacustomer, jk_customer, alamat_customer, foto_customer) VALUES (
             '',
-            '".$_POST['inputan_nidn_dosen']."',
-            '".$_POST['inputan_nama_dosen']."',
-            '".$_POST['inputan_jk_dosen']."',
-            '".$_POST['inputan_alamat_dosen']."',
-            ''
-        ) ");
+            '".$_POST['inputan_info_customer']."',
+            '".$_POST['inputan_nama_customer']."',
+            '".$_POST['inputan_jk_customer']."',
+            '".$_POST['inputan_alamat_alamat']."',
+            '$nama_file_baru'
+            ) ");
         
         echo "<script>alert('Operasi berhasil')</script>";
         echo "<meta http-equiv='refresh' content='0; url=hal-aplikasi-crud.php'> ";
@@ -423,11 +423,11 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == ''){
 }
 
 //perintah simpan ubah data
-if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == 'ubah_dosen'){
+if(isset($_POST['tombol_simpan_customer']) and @$_GET['aksi'] == 'ubah_customer'){
     //periksa apakah file diunggah tanpa kesalahan
-    if(isset($_FILES["inputan_foto_dosen"]) && $_FILES["inputan_foto_dosen"]["error"] == 0){
+    if(isset($_FILES["inputan_foto_customer"]) && $_FILES["inputan_foto_customer"]["error"] == 0){
         $batas_ekstensi_file = array("jpg", "jpeg", "png");
-        $file_pilihan = pathinfo($_FILES["inputan_foto_dosen"]["name"], PATHINFO_EXTENSION);
+        $file_pilihan = pathinfo($_FILES["inputan_foto_customer"]["name"], PATHINFO_EXTENSION);
 
         //periksa ekstensi file yang di izinkan upload
         if(in_array($file_pilihan, $batas_ekstensi_file)){
@@ -439,17 +439,17 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == 'ubah_dosen'){
             $target_file = $folder_simpan.$nama_file_baru;
 
             //memindahkan file yang diunggah ke lokasi yang ditentukan & melakukan proses simpan data baru
-            if(move_uploaded_file($_FILES["inputan_foto_dosen"]["tmp_name"], $target_file)){
+            if(move_uploaded_file($_FILES["inputan_foto_customer"]["tmp_name"], $target_file)){
                 //menghapus file/gambar yang tersimpan di direktori/folder
                 unlink('unggahan_foto/'.$_POST['nama_foto_tersimpan']);
                 //melakukan proses simpan ubah data
-                $query_simpan_ubah = mysqli_query($koneksi, "UPDATE dosen SET 
-                    nidn_dosen = '".$_POST['inputan_nidn_dosen']."',
-                    nama_dosen = '".$_POST['inputan_nama_dosen']."',
-                    jk_dosen = '".$_POST['inputan_jk_dosen']."',
-                    alamat_dosen = '".$_POST['inputan_alamat_dosen']."',
-                    foto_dosen = '$nama_file_baru'
-                    WHERE id_dosen = '".$_GET['vid_dosen']."'
+                $query_simpan_ubah = mysqli_query($koneksi, "UPDATE customer SET 
+                    info_customer = '".$_POST['inputan_info_customer']."',
+                    namacustomer = '".$_POST['inputan_nama_customer']."',
+                    jk_customer = '".$_POST['inputan_jk_customer']."',
+                    alamat_customer = '".$_POST['inputan_alamat_customer']."',
+                    foto_customer = '$nama_file_baru'
+                    WHERE idcustomer = '".$_GET['vid_customer']."'
                     ");
 
                 echo "<script>alert('Operasi berhasil.')</script>";
@@ -463,13 +463,13 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == 'ubah_dosen'){
         }
     } else {
         //melakukan proses simpan ubah data
-        $query_simpan_ubah = mysqli_query($koneksi, "UPDATE dosen SET 
-            nidn_dosen = '".$_POST['inputan_nidn_dosen']."',
-            nama_dosen = '".$_POST['inputan_nama_dosen']."',
-            jk_dosen = '".$_POST['inputan_jk_dosen']."',
-            alamat_dosen = '".$_POST['inputan_alamat_dosen']."',
-            foto_dosen = '".$_POST['nama_foto_tersimpan']."'
-            WHERE id_dosen = '".$_GET['vid_dosen']."'
+        $query_simpan_ubah = mysqli_query($koneksi, "UPDATE customer SET 
+            info_customer = '".$_POST['inputan_nidn_customer']."',
+            namacustomer= '".$_POST['inputan_nama_customer']."',
+            jk_customer = '".$_POST['inputan_jk_customer']."',
+            alamat_customer = '".$_POST['inputan_alamat_customer']."',
+            foto_customer = '".$_POST['nama_foto_tersimpan']."'
+            WHERE idcustomer = '".$_GET['vid_customer']."'
         ");
         
         echo "<script>alert('Operasi berhasil')</script>";
@@ -478,11 +478,11 @@ if(isset($_POST['tombol_simpan_dosen']) and @$_GET['aksi'] == 'ubah_dosen'){
 }
 
 //perintah hapus
-if(@$_GET['aksi'] == 'hapus_dosen'){
+if(@$_GET['aksi'] == 'hapus_customer'){
     //melakukan proses hapus data
-    $query_hapus = mysqli_query($koneksi, "DELETE FROM dosen where id_dosen = '".$_GET['vid_dosen']."' ");
+    $query_hapus = mysqli_query($koneksi, "DELETE FROM customerwhere idcustomer = '".$_GET['vid_customer']."' ");
     //menghapus file/gambar yang tersimpan di direktori/folder
-    unlink('unggahan_foto/'.$_GET['vfoto_dosen']);
+    unlink('unggahan_foto/'.$_GET['vfoto_customer']);
 
     echo "<script>alert('Hapus berhasil')</script>";
     echo "<meta http-equiv='refresh' content='0; url=hal-aplikasi-crud.php'> ";
