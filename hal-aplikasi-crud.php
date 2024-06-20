@@ -167,7 +167,13 @@
                         <div class="row mb-2">
                             <label class="col-4">Nama</label>
                             <div class="col-8">
-                                <input class="form-control" type="text" name="inputan_nama_customer" required value="<?= @$data_ubah_dosen['nama_customer'] ?>">
+                                <input class="form-control" type="text" name="inputan_nama_customer" required value="<?= @$data_ubah_dosen['namacustomer'] ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-4">Informasi</label>
+                            <div class="col-8">
+                                <textarea class="form-control" name="inputan_info_customer" required><?= @$data_ubah_customer['info_customer'] ?></textarea>
                             </div>
                         </div>
 
@@ -176,7 +182,7 @@
                             <div class="col-8">
                                 <select class="form-control" name="inputan_jk_customer" required>
                                     <?php if(!empty(@$data_ubah_customer['jk_customer'])) { ?>
-                                    <option value="<?= @$data_ubah_customer['jk_dosen'] ?>"><?= @$data_ubah_customer['jk_customer'] ?></option>
+                                    <option value="<?= @$data_ubah_customer['jk_customer'] ?>"><?= @$data_ubah_customer['jk_customer'] ?></option>
                                     <?php } ?>
                                     <option value=""> -- Silahkan Pilih --</option>
                                     <option value="laki-laki">laki - laki</option>
@@ -212,7 +218,7 @@
         <!-- konten form data dosen -->
         <div class="col-7">
             <div class="card">
-                <div class="card-header bg-secondary text-white"><b>Tabel Data (dosen)</b></div>
+                <div class="card-header bg-secondary text-white"><b>Tabel Data (customer)</b></div>
                 <div class="card-body">
                     <table class="table table-bordered" id="tabel_data">
                         <thead>
@@ -248,9 +254,9 @@
     <!-- area halaman menu master data 2 -->
     <div id="menu_cetak" class="container tab-pane <?php echo ($_SESSION['active_tab'] == 'menu_cetak') ? 'active' : ''; ?>">
       <h3>Halaman Laporan</h3>
-      <p>Ini adalah halaman untuk mencetak laporan jadwal kuliah.</p>
+      <p>Ini adalah halaman untuk mencetak laporan penjualan.</p>
       <div class="row">
-        <!-- konten form data dosen -->
+        <!-- konten form data customer -->
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-secondary text-white"><b>Pilihan Laporan</b></div>
@@ -268,7 +274,7 @@
                             <form action="hal-cetak-laporan-jadwalkuliah.php" method="post" target="new">
                             <tr style="font-size: smaller;">
                                 <td>1</td>
-                                <td>Laporan Jadwal Kuliah</td>
+                                <td>Laporan penjualan</td>
                                 <td>
                                     <small><b>Tgl. Mulai</b></small>
                                     <input class="form-control" type="date" name="inputan_tgl_mulai" required>
