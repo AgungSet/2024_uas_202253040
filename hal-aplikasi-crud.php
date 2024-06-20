@@ -60,90 +60,46 @@
                     <form method="post" enctype="multipart/form-data" action="">
 
                         <input class="form-control" type="hidden" name="inputan_id_jadwalkuliah" value="<?= @$_GET['vid_dosen'] ?>">                    
-                        <!-- <div class="row mb-2">
-                            
-                            <label class="col-4">Tangal Entri</label>
-                            <div class="col-8">
-                                <input class="form-control" type="date" name="inputan_tanggal_entri" required value="<?= @$data_ubah_jadwal['tanggal_entri'] ?>">
-                            </div>
-                        </div> -->
+                        
 
-                        <!-- <div class="row mb-2">
-                            <label class="col-4">Hari Kuliah</label>
-                            <div class="col-8">
-                                <select class="form-control" name="inputan_hari_kuliah" required>
-                                    <?php if(!empty(@$_GET['vid_jadwalkuliah'])) { ?>
-                                    <option value="<?= @$data_ubah_jadwal['hari_kuliah'] ?>"><?= @$data_ubah_jadwal['hari_kuliah'] ?></option>
-                                    <?php } ?>
-                                    <option value=""> -- Silahkan Pilih --</option>
-                                    <option value="Senin">Senin</option>
-                                    <option value="Selasa">Selasa</option>
-                                    <option value="Rabu">Rabu</option>
-                                    <option value="Kamis">Kamis</option>
-                                    <option value="Jumat">Jumat</option>
-                                    <option value="Sabtu">Sabtu</option>
-                                    <option value="Minggu">Minggu</option>
-                                </select>
-                            </div>
-                        </div> -->
-                     
-                        <!-- <div class="row mb-4">
-                            <label class="col-4">Jam Kuliah</label>
-                            <div class="col-8">
-                                <small><i>mulai</i></small>
-                                <input class="form-control" type="time" name="inputan_jam_mulai" required value="<?= substr(@$data_ubah_jadwal['jam_kuliah'], 0, 5)  ?>">
-                                <small><i>selesai</i></small>
-                                <input class="form-control" type="time" name="inputan_jam_selesai" required value="<?= substr(@$data_ubah_jadwal['jam_kuliah'], -5, 5) ?>">
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="row mb-2">
-                            <label class="col-4">Tempat Kuliah</label>
-                            <div class="col-8">
-                                <textarea class="form-control" name="inputan_tempat_kuliah" required><?= @$data_ubah_jadwal['tempat_kuliah'] ?></textarea>
-                            </div>
-                        </div> -->
-    <!-- Jam Real Time -->
-    <html>
-<body>
-    <?php
-        date_default_timezone_set("Asia/jakarta");
-    ?>
-    <p>Jam Pembelian &emsp; &emsp; <b><span id="jam" style="font-size:24"></span></b></p>
-    <script type="text/javascript">
-        window.onload = function() { jam(); }
-       
-        function jam() {
-            var e = document.getElementById('jam'),
-            d = new Date(), h, m;
-            h = d.getHours();
-            m = set(d.getMinutes());
-       
-            e.innerHTML = h +':'+ m ;
-       
-            setTimeout('jam()', 1000);
-        }
-       
-        function set(e) {
-            e = e < 10 ? '0'+ e : e;
-            return e;
-        }
-    </script>
-</body>
-</html>
+                
+                    <?php
+                        date_default_timezone_set("Asia/jakarta");
+                    ?>
+                    <p>Jam Pembelian &emsp; &emsp; <b><span id="jam" style="font-size:24"></span></b></p>
+                    <script type="text/javascript">
+                        window.onload = function() { jam(); }
+                    
+                        function jam() {
+                            var e = document.getElementById('jam'),
+                            d = new Date(), h, m;
+                            h = d.getHours();
+                            m = set(d.getMinutes());
+                    
+                            e.innerHTML = h +':'+ m ;
+                    
+                            setTimeout('jam()', 1000);
+                        }
+                    
+                        function set(e) {
+                            e = e < 10 ? '0'+ e : e;
+                            return e;
+                        }
+                    </script>
+               
                         
                         <div class="row mb-2">
                             <label class="col-4">Nama Customer</label>
                             <div class="col-8">
-                                <select class="form-control" name="inputan_pilih_dosen" required>
-                                    <?php if(!empty(@$data_ubah_jadwal['id_dosen'])) { ?>
-                                    <option value="<?= @$data_ubah_jadwal['id_dosen'] ?>"><?= @$data_ubah_jadwal['nidn_dosen'].' - '.$data_ubah_jadwal['nama_dosen'] ?></option>
+                                <select class="form-control" name="inputan_pilih_customer" required>
+                                    <?php if(!empty(@$data_ubah_jadwal['id'])) { ?>
+                                    <option value="<?= @$data_ubah_jadwal['id'] ?>"><?= @$data_ubah_jadwal['nama'] ?></option>
                                     <?php } ?>
                                     
                                     <option value=""> -- Silahkan Pilih --</option>
-                                    <?php $SQLTampilDataDosen = mysqli_query($koneksi, "SELECT * FROM dosen ORDER BY id_dosen DESC");
-                                        while($data_dosen = mysqli_fetch_array($SQLTampilDataDosen)) { ?>
-                                    <option value="<?= $data_dosen['id_dosen'] ?>"><?= $data_dosen['nidn_dosen'].' - '.$data_dosen['nama_dosen'] ?></option>
+                                    <?php $SQLTampilDatacustomer = mysqli_query($koneksi, "SELECT * FROM customer ORDER BY id DESC");
+                                        while($data_customer = mysqli_fetch_array($SQLTampilDataDosen)) { ?>
+                                    <option value="<?= $data_customer['id'] ?>"><?= $data_customer['nama'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
