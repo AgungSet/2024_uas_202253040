@@ -79,7 +79,7 @@
                     <?php 
                         //perintah untuk menampilkan data ke form entri saat melakukan ubah data
                         if(@$_GET['aksi'] == 'ubah_produk') { 
-                            $SQLTampilDataUbahMatakuliah = mysqli_query($koneksi, "SELECT * FROM produk where idproduk = '".$_GET['vidproduk']."' "); 
+                            $SQLTampilDataUbahproduk = mysqli_query($koneksi, "SELECT * FROM produk where idproduk = '".$_GET['vidproduk']."' "); 
                             $data_ubah_produk = mysqli_fetch_array($SQLTampilDataUbahproduk);
                         }
                     ?>
@@ -103,7 +103,7 @@
             </div>
         </div>
         
-        <!-- konten form data matakuliah -->
+        <!-- konten form data produk -->
         <div class="col-7">
             <div class="card">
                 <div class="card-header bg-secondary text-white"><b>Tabel Data (produk)</b></div>
