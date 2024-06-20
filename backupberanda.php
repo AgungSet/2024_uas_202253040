@@ -5,12 +5,12 @@
         <!-- konten form entri jadwal kuliah -->
         <div class="col-5">
             <div class="card">
-                <div class="card-header bg-secondary text-white"><b>Form Entri (Jadwal Kuliah)</b></div>
+                <div class="card-header bg-secondary text-white"><b>Form Entri (penjualan)</b></div>
                 <div class="card-body">
                     <?php 
                         //perintah untuk menampilkan data ke form entri saat melakukan ubah data
                         if(@$_GET['aksi'] == 'ubah_jadwal') { 
-                            $SQLTampilDataUbahJadwal = mysqli_query($koneksi, "SELECT * FROM jadwal_kuliah, dosen, mata_kuliah where jadwal_kuliah.id_dosen = dosen.id_dosen and jadwal_kuliah.id_matakuliah = mata_kuliah.id_matakuliah and id_jadwalkuliah = '".$_GET['vid_jadwalkuliah']."' "); 
+                            $SQLTampilDataUbahJadwal = mysqli_query($koneksi, "SELECT * FROM penjualan, customer, produk where penjualan.idcustomer = dosen.id_dosen and penjualan.idproduk = produk.idproduk and idpenjualan = '".$_GET['vid_penjualan']."' "); 
                             $data_ubah_jadwal = mysqli_fetch_array($SQLTampilDataUbahJadwal);
                         }
                     ?>
