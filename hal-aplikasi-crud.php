@@ -202,9 +202,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Waktu Kuliah</th>
-                                <th>Tempat Kuliah</th>
-                                <th>Matakuliah</th>
+                                <th>Nama Customer</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Total Pesanan</th>
+                                <th>Total Harga</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -688,18 +690,18 @@ if(@$_GET['aksi'] == 'hapus_dosen'){
 //perintah simpan / tambah data
 if(isset($_POST['tombol_simpan_jadwal']) and @$_GET['aksi'] == ''){
     //melakukan proses simpan data baru
-    $jam_mulai_selesai_kuliah = $_POST['inputan_jam_mulai'].' sampai '.$_POST['inputan_jam_selesai'];
     
-    $query_simpan = mysqli_query($koneksi, "INSERT INTO jadwal_kuliah (id_jadwalkuliah, tanggal_entri, hari_kuliah, jam_kuliah, tempat_kuliah, id_matakuliah, id_dosen) VALUES (
+    $query_simpan = mysqli_query($koneksi, "INSERT INTO penjualan (id, tanggal, namaproduk, harga, totalpesanan, totalharga, idcustomer, catatan) VALUES (
         '',
-        '".$_POST['inputan_tanggal_entri']."',
-        '".$_POST['inputan_hari_kuliah']."',
-        '$jam_mulai_selesai_kuliah',
-        '".$_POST['inputan_tempat_kuliah']."',
-        '".$_POST['inputan_pilih_matkul']."',
-        '".$_POST['inputan_pilih_dosen']."'
+        '".$_POST['inputan_tanggal']."',
+        '".$_POST['inputan_pilih_produk']."',
+        '".$_POST['inputan_harga']."',
+        '".$_POST['inputan_totalpesanan']."',
+        '".$_POST['inputan_totalharga']."',
+        '".$_POST['inputan_pilih_customer']."',
+        '".$_POST['inputan_catatan']."'
+       
     ) ");
-
     echo "<script>alert('Operasi berhasil')</script>";
     echo "<meta http-equiv='refresh' content='0; url=hal-aplikasi-crud.php'> ";
 }
