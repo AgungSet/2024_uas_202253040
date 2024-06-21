@@ -1,6 +1,6 @@
 <!-- membuat koneksi database -->
 <?php
-    $koneksi = mysqli_connect('localhost','root','','penjualan_pwuas2024w') or die('koneksi gagal');  
+    $koneksi = mysqli_connect('localhost','root','','penjualan_pwuas2024') or die('koneksi gagal');  
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi CRUD (Materi UAS)</title>
+  <title>Aplikasi CRUD (Penjualan)</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Komponen FontAwesome -->
@@ -19,7 +19,7 @@
 <body>
 
 <!-- nama aplikasi -->
-<center class="m-3"><h1 style="font-family: 'Sofia', sans-serif; color: green; font-weight: bold;"><i class="fa fa-clone"></i> Aplikasi CRUD (Materi UAS)</h1></center>
+<center class="m-3"><h1 style="font-family: 'Sofia', sans-serif; color: green; font-weight: bold;"><i class="fa fa-clone"></i> Aplikasi CRUD (Penjualan)</h1></center>
 
 <!-- menu tab aplikasi -->
 <div class="container mt-5">
@@ -99,6 +99,12 @@
                             </div>
                         </div>
                         <div class="row mb-2">
+                            <label class="col-4">harga</label>
+                            <div class="col-8">
+                                <input class="form-control" type="text" name="inputan_harga" required value="<?= @$data_ubah_jadwal['harga'] ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
                             <label class="col-4">Total Pesanan</label>
                             <div class="col-8">
                                 <input class="form-control" type="text" name="inputan_total_pesanan" required value="<?= @$data_ubah_jadwal['total_pesanan'] ?>">
@@ -138,6 +144,7 @@
                                 <th>nama Customer</th>
                                 <th>Nama Produk</th>
                                 <th>Tanggal</th>
+                                <th>harga</th>
                                 <th>total pesanan</th>
                                 <th>total harga</th>
                                 <th>catatan</th>
@@ -156,6 +163,7 @@
                                 <td><?= $data_penjualan['nama_customer'] ?></td>
                                 <td><?= $data_penjualan['nama_produk'] ?></td>
                                 <td><?= $data_penjualan['tanggal_penjualan'] ?></td>
+                                <td><?= $data_penjualan['harga'] ?></td>
                                 <td><?= $data_penjualan['total_pesanan'] ?></td>
                                 <td><?= $data_penjualan['total_harga'] ?></td>
                                 <td><?= $data_penjualan['catatan'] ?></td>
@@ -361,7 +369,7 @@
     <!-- area halaman menu master data 2 -->
     <div id="menu_cetak" class="container tab-pane <?php echo ($_SESSION['active_tab'] == 'menu_cetak') ? 'active' : ''; ?>">
       <h3>Halaman Laporan</h3>
-      <p>Ini adalah halaman untuk mencetak laporan jadwal kuliah.</p>
+      <p>Ini adalah halaman untuk mencetak laporan Penjualan.</p>
       <div class="row">
         <!-- konten form data customer -->
         <div class="col-12">
@@ -381,7 +389,7 @@
                             <form action="hal-cetak-laporan-jadwalkuliah.php" method="post" target="new">
                             <tr style="font-size: smaller;">
                                 <td>1</td>
-                                <td>Laporan Jadwal Kuliah</td>
+                                <td>Laporan Jadwal penjualan</td>
                                 <td>
                                     <small><b>Tgl. Mulai</b></small>
                                     <input class="form-control" type="date" name="inputan_tgl_mulai" required>
@@ -476,10 +484,11 @@ if(@$_GET['aksi'] == 'hapus_produk'){
 //perintah simpan / tambah data
 if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == ''){
     //melakukan proses simpan data baru
-    $query_simpan = mysqli_query($koneksi, "INSERT INTO penjualan (idcustomer,idproduk,tanggal_penjualan,total_pesanan,total_harga,catatan) VALUES (
+    $query_simpan = mysqli_query($koneksi, "INSERT INTO penjualan (idcustomer,idproduk,tanggal_penjualan,harga,total_pesanan,total_harga,catatan) VALUES (
         '".$_POST['inputan_nama_customer']."',
         '".$_POST['inputan_nama_produk']."',
         '".$_POST['inputan_tanggal_penjualan']."',
+        '".$_POST['inputan_harga']."',
         '".$_POST['inputan_total_pesanan']."',
         '".$_POST['inputan_total_harga']."',
         '".$_POST['inputan_catatan_penjualan']."'
@@ -496,6 +505,7 @@ if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_pejualan
         nama_customer = '".$_POST['inputan_nama_customer']."',
         nama_produk = '".$_POST['inputan_nama_produk']."',
         tanggal_penjualan = '".$_POST['inputan_tanggal_penjualan']."',
+        harga = '".$_POST['inputan_harga']."',
         total_pesanan = '".$_POST['inputan_total_pesanan']."',
         total_harga = '".$_POST['inputan_total_harga']."',
         catatan= '".$_POST['inputan_catatan_penjualan']."',
