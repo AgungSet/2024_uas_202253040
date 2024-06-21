@@ -1,6 +1,6 @@
 <!-- membuat koneksi database -->
 <?php
-    $koneksi = mysqli_connect('localhost','root','','penjualan_uaspw') or die('koneksi gagal');  
+    $koneksi = mysqli_connect('localhost','root','','penjualan_pwuas2024w') or die('koneksi gagal');  
 ?>
 
 <!DOCTYPE html>
