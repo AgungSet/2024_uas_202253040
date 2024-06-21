@@ -121,6 +121,7 @@
                             <div class="col-8">
                                 <input class="form-control" type="text" name="inputan_catatan_penjualan" required value="<?= @$data_ubah_jadwal['catatan'] ?>">
                             </div>
+                            
                         </div>
 
                         <!-- Button atau tombol -->
@@ -501,6 +502,7 @@ if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == ''){
 //perintah simpan ubah data
 if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_pejualan'){
     //melakukan proses simpan ubah data
+    $totalharga = $_POST['inputan_harga'] * $_POST['inputan_total_pesanan'];
     $query_simpan_ubah = mysqli_query($koneksi, "UPDATE penjualan SET 
         nama_customer = '".$_POST['inputan_nama_customer']."',
         nama_produk = '".$_POST['inputan_nama_produk']."',
@@ -512,6 +514,8 @@ if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_pejualan
         WHERE idpenjualan = '".$_GET['vid_penjualan']."'
         ");
 
+        // total harga = harga * total pesanan
+        
     echo "<script>alert('Operasi ubah data berhasil')</script>";
     echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
 }
