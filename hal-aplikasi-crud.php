@@ -103,7 +103,7 @@
             </div>
         </div>
         
-        <!-- konten form data produk -->
+        <!-- konten form data matakuliah -->
         <div class="col-7">
             <div class="card">
                 <div class="card-header bg-secondary text-white"><b>Tabel Data (produk)</b></div>
