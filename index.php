@@ -207,6 +207,16 @@
                             </div>
                         </div>
 
+                        
+                        <div class="row mb-2">
+                            <label class="col-4">Foto produk</label>
+                            <div class="col-8">
+                                <input class="form-control" type="file" name="inputan_foto_produk">
+                                <input class="form-control" type="hidden" name="nama_foto_produk_tersimpan" value="<?= @$data_ubah_customer['foto_produk'] ?>">
+                            </div>
+                        </div>
+                        
+
                         <!-- Button atau tombol -->
                         <button name="tombol_simpan_produk" class="btn btn-success btn-block btn-lg"> <i class="fa fa-save"></i> Simpan</button>
                         <a href="index.php" class="btn btn-danger btn-block"><i class="fa fa-refresh fa-spin"></i> Muat Ulang</a>
@@ -226,6 +236,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Nama produk</th>
+                                <th>Foto Produk</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -236,10 +247,11 @@
                             <tr style="font-size: smaller;">
                                 <td><?= $no++ ?></td>
                                 <td><?= $data_produk['nama_produk'] ?></td>
-                                <td>
-                                    <a style="margin: 2px;" href="index.php?aksi=ubah_produk&vid_produk=<?= $data_produk['idproduk'] ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a style="margin: 2px;" onclick="return confirm('Yakin hapus ?')" href="index.php?aksi=hapus_produk&vid_produk=<?= $data_produk['idproduk'] ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                </td>
+                                <td><img src="<?= 'unggahan_produk/'.$data_produk['foto_produk'] ?>" height="100%" width="50px" style="border: 2.5px solid grey;"></td>
+                                <td><a style="margin: 2px;" href="index.php?aksi=ubah_produk&vid_produk=<?= $data_produk['idproduk'] ?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                <a style="margin: 2px;" onclick="return confirm('Yakin hapus ?')" href="index.php?aksi=hapus_produk&vid_produk=<?= $data_produk['idproduk'] ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                    
+                              
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -435,8 +447,8 @@
 <footer class="mt-2 text-center text-muted">
   <div class="container">
     <hr style="border: dashed 2px;">
-    <p style="margin: 0">&copy; <?= date('Y') ?> Pemrograman Web. SI - UMK.</p>
-    <p>Designed with <i class="fa fa-heart"></i> by Zainur Romadhon</p>
+    <p style="margin: 0">&copy; <?= date('Y') ?> Pemrograman Web</p>
+    <p>Designed with <i class=""></i> by wokewoke</p>
   </div>
 </footer>
 
@@ -449,27 +461,121 @@
 <?php 
 //========================================================================================= produk
 //perintah simpan / tambah data
+//perintah simpan / tambah data
 if(isset($_POST['tombol_simpan_produk']) and @$_GET['aksi'] == ''){
-    //melakukan proses simpan data baru
-    $query_simpan = mysqli_query($koneksi, "INSERT INTO produk (nama_produk) VALUES (
-        '".$_POST['inputan_nama_produk']."'
-    ) ");
+    //periksa apakah file diunggah tanpa kesalahan
+    if(isset($_FILES["inputan_foto_produk"]) && $_FILES["inputan_foto_produk"]["error"] == 0){
+        $batas_ekstensi_file = array("jpg", "jpeg", "png");
+        $file_pilihan = pathinfo($_FILES["inputan_foto_produk"]["name"], PATHINFO_EXTENSION);
 
-    echo "<script>alert('Operasi berhasil')</script>";
-    echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+        //periksa ekstensi file yang di izinkan upload
+        if(in_array($file_pilihan, $batas_ekstensi_file)){
+            //menentukan tempat menyimpan file
+            $folder_simpan = "unggahan_produk/";
+
+            //me-rename file supaya tidak ada nama file yang sama
+            $nama_file_baru = uniqid().'.'.$file_pilihan;
+            $target_file = $folder_simpan.$nama_file_baru;
+
+            //memindahkan file yang diunggah ke lokasi yang ditentukan & melakukan proses simpan data baru
+            if(move_uploaded_file($_FILES["inputan_foto_produk"]["tmp_name"], $target_file)){
+                $query_simpan = mysqli_query($koneksi, "INSERT INTO produk ( nama_produk, foto_produk) VALUES (
+                    '".$_POST['inputan_nama_produk']."',
+                    '$nama_file_baru'
+                    ) ");
+
+                echo "<script>alert('Operasi berhasil.')</script>";
+                echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+
+            } else {
+                echo "<script>alert('Maaf, terjadi kesalahan saat mengunggah file.')</script>";
+            }
+        } else {
+            echo "<script>alert('Maaf, hanya file JPG, JPEG, dan PNG yang diperbolehkan.')</script>";
+        }
+    } else {
+        //melakukan proses simpan data baru
+        $query_simpan = mysqli_query($koneksi, "INSERT INTO produk ( nama_produk, foto_produk) VALUES (
+            '".$_POST['inputan_nama_produk']."',
+            ''
+        ) ");
+        
+        echo "<script>alert('Operasi berhasil')</script>";
+        echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+    }
+
 }
 
 //perintah simpan ubah data
 if(isset($_POST['tombol_simpan_produk']) and @$_GET['aksi'] == 'ubah_produk'){
-    //melakukan proses simpan ubah data
-    $query_simpan_ubah = mysqli_query($koneksi, "UPDATE produk SET 
-        nama_produk = '".$_POST['inputan_nama_produk']."'
-        WHERE idproduk = '".$_GET['vid_produk']."'
-        ");
+    //periksa apakah file diunggah tanpa kesalahan
+    if(isset($_FILES["inputan_foto_produk"]) && $_FILES["inputan_foto_produk"]["error"] == 0){
+        $batas_ekstensi_file = array("jpg", "jpeg", "png");
+        $file_pilihan = pathinfo($_FILES["inputan_foto_produk"]["name"], PATHINFO_EXTENSION);
 
-    echo "<script>alert('Operasi ubah data berhasil')</script>";
-    echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+        //periksa ekstensi file yang di izinkan upload
+        if(in_array($file_pilihan, $batas_ekstensi_file)){
+            //menentukan tempat menyimpan file
+            $folder_simpan = "unggahan_produk/";
+
+            //me-rename file supaya tidak ada nama file yang sama
+            $nama_file_baru = uniqid().'.'.$file_pilihan;
+            $target_file = $folder_simpan.$nama_file_baru;
+
+            //memindahkan file yang diunggah ke lokasi yang ditentukan & melakukan proses simpan data baru
+            if(move_uploaded_file($_FILES["inputan_foto_produk"]["tmp_name"], $target_file)){
+                //menghapus file/gambar yang tersimpan di direktori/folder
+                unlink('unggahan_foto/'.$_POST['nama_foto_produk_tersimpan']);
+                //melakukan proses simpan ubah data
+                
+                $query_simpan_ubah = mysqli_query($koneksi, "UPDATE produk SET 
+                    nama_produk = '".$_POST['inputan_nama_produk']."',
+                    foto_produk = '$nama_file_baru'
+                    WHERE idproduk = '".$_GET['vidproduk']."'
+                    ");
+
+                echo "<script>alert('Operasi berhasil.')</script>";
+                echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+
+            } else {
+                echo "<script>alert('Maaf, terjadi kesalahan saat mengunggah file.')</script>";
+            }
+        } else {
+            echo "<script>alert('Maaf, hanya file JPG, JPEG, dan PNG yang diperbolehkan.')</script>";
+        }
+    } else {
+        //melakukan proses simpan ubah data
+        $query_simpan_ubah = mysqli_query($koneksi, "UPDATE customer SET 
+            nama_produk = '".$_POST['inputan_nama_produk']."',
+            foto_produk = '".$_POST['nama_foto_produk_tersimpan']."'
+            WHERE idproduk = '".$_GET['vidproduk']."'
+        ");
+        
+        echo "<script>alert('Operasi berhasil')</script>";
+        echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+    }
 }
+// if(isset($_POST['tombol_simpan_produk']) and @$_GET['aksi'] == ''){
+//     //melakukan proses simpan data baru
+//     $query_simpan = mysqli_query($koneksi, "INSERT INTO produk (nama_produk) VALUES (
+//         '".$_POST['inputan_nama_produk']."'
+//     ) ");
+
+//     echo "<script>alert('Operasi berhasil')</script>";
+//     echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+// }
+
+// //perintah simpan ubah data
+// if(isset($_POST['tombol_simpan_produk']) and @$_GET['aksi'] == 'ubah_produk'){
+//     //melakukan proses simpan ubah data
+//     $query_simpan_ubah = mysqli_query($koneksi, "UPDATE produk SET 
+//         nama_produk = '".$_POST['inputan_nama_produk']."'
+//         WHERE idproduk = '".$_GET['vid_produk']."'
+//         ");
+
+//     echo "<script>alert('Operasi ubah data berhasil')</script>";
+//     echo "<meta http-equiv='refresh' content='0; url=index.php'> ";
+// }
 
 //perintah hapus
 if(@$_GET['aksi'] == 'hapus_produk'){
@@ -498,7 +604,7 @@ if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == ''){
 }
 
 //perintah simpan ubah data
-if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_pejualan'){
+if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_penjualan'){
     //melakukan proses simpan ubah data
     $query_simpan_ubah = mysqli_query($koneksi, "UPDATE penjualan SET 
         idcustomer = '".$_POST['inputan_nama_customer']."',
@@ -599,6 +705,7 @@ if(isset($_POST['tombol_simpan_customer']) and @$_GET['aksi'] == 'ubah_customer'
                 //menghapus file/gambar yang tersimpan di direktori/folder
                 unlink('unggahan_foto/'.$_POST['nama_foto_tersimpan']);
                 //melakukan proses simpan ubah data
+                
                 $query_simpan_ubah = mysqli_query($koneksi, "UPDATE customer SET 
                     nama_customer = '".$_POST['inputan_nama_customer']."',
                     jenis_kelamin = '".$_POST['inputan_jenis_kelamin_customer']."',
