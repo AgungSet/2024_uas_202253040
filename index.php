@@ -95,7 +95,7 @@
                         <div class="row mb-2">
                             <label class="col-4">Tangal Entri</label>
                             <div class="col-8">
-                                <input class="form-control" type="date" name="inputan_tanggal_penjualan" required value="<?= @$data_ubah_jadwal['tanggal_penjualan'] ?>">
+                                <input class="form-control" type="date" name="inputan_tanggal_penjualan" required value="<?= @$data_ubah_penjualan['tanggal_penjualan'] ?>">
                             </div>
                         </div>
                         <div class="row mb-2">
