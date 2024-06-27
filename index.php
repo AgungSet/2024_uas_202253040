@@ -64,15 +64,14 @@
                             <label class="col-4">Nama Customer</label>
                             <div class="col-8">
                                 <select class="form-control" name="inputan_nama_customer" required>
-                                    <?php if(!empty(@$data_ubah_penjualan['idcustomer'])) { ?>
-                                    <option value="<?= @$data_ubah_penjualan['idcustomer'] ?>"><?= @$data_ubah_penjualan['nama_customer'] ?></option>
-                                    <?php } ?>
-                                    
-                                    <option value=""> -- Silahkan Pilih --</option>
-                                    <?php $SQLTampilDatacustomer = mysqli_query($koneksi, "SELECT * FROM customer ORDER BY idcustomer DESC");
-                                        while($data_customer = mysqli_fetch_array($SQLTampilDatacustomer)) { ?>
-                                    <option value="<?= $data_customer['idcustomer'] ?>"><?= $data_customer['nama_customer'] ?></option>
-                                    <?php } ?>
+                                                <option value="">Pilih Customer</option>
+                                                <?php
+                                                $SQLTampilDatacustomer = mysqli_query($koneksi, "SELECT * FROM customer");
+                                                while ($data_customer = mysqli_fetch_assoc($SQLTampilDatacustomer)) {
+                                                    $selected = ($data_customer['idcustomer'] == @$data_ubah_penjualan['idcustomer']) ? 'selected' : '';
+                                                    echo "<option value='".$data_customer['idcustomer']."' $selected>".$data_customer['nama_customer']."</option>";
+                                                }
+                                                ?>
                                 </select>
                             </div>
                         </div>
@@ -80,15 +79,14 @@
                             <label class="col-4">Nama Produk</label>
                             <div class="col-8">
                                 <select class="form-control" name="inputan_nama_produk" required>
-                                    <?php if(!empty(@$data_ubah_penjualan['idproduk'])) { ?>
-                                    <option value="<?= @$data_ubah_penjualan['idproduk'] ?>"><?= @$data_ubah_penjualan['nama_produk'] ?></option>
-                                    <?php } ?>
-                                    
-                                    <option value=""> -- Silahkan Pilih --</option>
-                                    <?php $SQLTampilDatacustomer = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY idproduk DESC");
-                                        while($data_customer = mysqli_fetch_array($SQLTampilDatacustomer)) { ?>
-                                    <option value="<?= $data_customer['idproduk'] ?>"><?= $data_customer['nama_produk'] ?></option>
-                                    <?php } ?>
+                                            <option value="">Pilih Produk</option>
+                                                <?php
+                                                $SQLTampilDataproduk = mysqli_query($koneksi, "SELECT * FROM produk");
+                                                while ($data_produk = mysqli_fetch_assoc($SQLTampilDataproduk)) {
+                                                    $selected = ($data_produk['idproduk'] == @$data_ubah_penjualan['idproduk']) ? 'selected' : '';
+                                                    echo "<option value='".$data_produk['idproduk']."' $selected>".$data_produk['nama_produk']."</option>";
+                                                }
+                                                ?>
                                 </select>
                             </div>
                         </div>
@@ -101,25 +99,25 @@
                         <div class="row mb-2">
                             <label class="col-4">harga</label>
                             <div class="col-8">
-                                <input class="form-control" type="text" name="inputan_harga" required value="<?= @$data_ubah_jadwal['harga'] ?>">
+                                <input class="form-control" type="text" name="inputan_harga" required value="<?= @$data_ubah_penjualan['harga'] ?>">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4">Total Pesanan</label>
                             <div class="col-8">
-                                <input class="form-control" type="text" name="inputan_total_pesanan" required value="<?= @$data_ubah_jadwal['total_pesanan'] ?>">
+                                <input class="form-control" type="text" name="inputan_total_pesanan" required value="<?= @$data_ubah_penjualan['total_pesanan'] ?>">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4">Total harga</label>
                             <div class="col-8">
-                                <input class="form-control" type="text" name="inputan_total_harga" required value="<?= @$data_ubah_jadwal['total_harga'] ?>">
+                                <input class="form-control" type="text" name="inputan_total_harga" required value="<?= @$data_ubah_penjualan['total_harga'] ?>">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4">Catatan</label>
                             <div class="col-8">
-                                <input class="form-control" type="text" name="inputan_catatan_penjualan" required value="<?= @$data_ubah_jadwal['catatan'] ?>">
+                                <input class="form-control" type="text" name="inputan_catatan_penjualan" required value="<?= @$data_ubah_penjualan['catatan'] ?>">
                             </div>
                             
                         </div>
@@ -502,15 +500,15 @@ if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == ''){
 //perintah simpan ubah data
 if(isset($_POST['tombol_simpan_penjualan']) and @$_GET['aksi'] == 'ubah_pejualan'){
     //melakukan proses simpan ubah data
-    $totalharga = $_POST['inputan_harga'] * $_POST['inputan_total_pesanan'];
     $query_simpan_ubah = mysqli_query($koneksi, "UPDATE penjualan SET 
-        nama_customer = '".$_POST['inputan_nama_customer']."',
-        nama_produk = '".$_POST['inputan_nama_produk']."',
+        idcustomer = '".$_POST['inputan_nama_customer']."',
+        idproduk = '".$_POST['inputan_nama_produk']."',
         tanggal_penjualan = '".$_POST['inputan_tanggal_penjualan']."',
         harga = '".$_POST['inputan_harga']."',
         total_pesanan = '".$_POST['inputan_total_pesanan']."',
         total_harga = '".$_POST['inputan_total_harga']."',
-        catatan= '".$_POST['inputan_catatan_penjualan']."',
+        catatan = '".$_POST['inputan_catatan_penjualan']."'
+        
         WHERE idpenjualan = '".$_GET['vid_penjualan']."'
         ");
 
